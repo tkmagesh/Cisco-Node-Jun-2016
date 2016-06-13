@@ -1,0 +1,8 @@
+Create a program 'program.js'
+	- create a calculator object with the following methods
+		* add(x,y)
+		* subtract(x,y)
+		* multiply(x,y)
+		* divide(x,y);
+
+	- invoke all the methods of caluclator for x = 200, y = 100 and print the results
