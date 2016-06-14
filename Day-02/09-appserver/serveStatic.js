@@ -6,19 +6,21 @@ function isStatic(resource){
 	return staticExtns.indexOf(path.extname(resource)) !== -1;
 }
 
-module.exports = function(req, res, next){
-	console.log('serve static');
-	if (isStatic(req.pathname)){
-		var resource = path.join(__dirname, req.pathname);
-		var exists = fs.existsSync(resource);
+module.exports = function(resourcePath){
+	return function(req, res, next){
 		
-		if (!exists){
-			res.statusCode = 404;
-			res.end();
-			return;
+		if (isStatic(req.pathname)){
+			var resource = path.join(resourcePath, req.pathname);
+			var exists = fs.existsSync(resource);
+			
+			if (!exists){
+				res.statusCode = 404;
+				res.end();
+				return;
+			}
+			fs.createReadStream(resource).pipe(res);		
+		} else {
+			next();
 		}
-		fs.createReadStream(resource).pipe(res);		
-	} else {
-		next();
 	}
-}
+};

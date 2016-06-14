@@ -1,4 +1,4 @@
-var _middlwares = [];
+var _middlewares = [];
 
 function exec(req, res, middlewares){
 	var first = middlewares[0],
@@ -11,12 +11,36 @@ function exec(req, res, middlewares){
 }
 
 function app(req, res){
-	exec(req, res, _middlwares);
+	exec(req, res, _middlewares);
 };
 
 app.use = function(middleware){
-	_middlwares.push(middleware);
+	_middlewares.push(middleware);
 };
 
+app.get = function(url, middleware){
+	_middlewares.push(function(req, res, next){
+		if (req.method === "GET" && req.pathname === url){
+			middleware(req, res, next);
+		} else {
+			next();
+		}
+	});
+};
+
+app.post = function(url, middleware){
+	_middlewares.push(function(req, res, next){
+		if (req.method === "POST" && req.pathname === url){
+			middleware(req, res, next);
+		} else {
+			next();
+		}
+	});
+}
+
+
+
+
+app.router = 
 module.exports = app;
 
