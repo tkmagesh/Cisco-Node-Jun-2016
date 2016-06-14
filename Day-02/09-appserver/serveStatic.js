@@ -7,7 +7,7 @@ function isStatic(resource){
 }
 
 module.exports = function(req, res){
-
+	console.log('serve static');
 	if (isStatic(req.pathname)){
 		var resource = path.join(__dirname, req.pathname);
 		var exists = fs.existsSync(resource);
@@ -17,6 +17,16 @@ module.exports = function(req, res){
 			res.end();
 			return;
 		}
-		fs.createReadStream(resource).pipe(res);
+		/*fs.createReadStream(resource).pipe(res);*/
+		var stream = fs.createReadStream(resource);
+		stream.on('data', function(chunk){
+			console.log('writing data chunk to response');
+			res.write(chunk);
+		});
+
+		stream.on('end', function(){
+			console.log('ending writing data chunk to response');
+			res.end();
+		});
 	}
 }
