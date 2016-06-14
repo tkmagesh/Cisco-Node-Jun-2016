@@ -16,6 +16,7 @@
         function init(){
             var btnConnect = document.getElementById("btnConnect");
             btnConnect.addEventListener("click", onBtnConnectClick);
+            
         }
         function onBtnConnectClick(){
             esConnection = new EventSource('./stream');
@@ -32,7 +33,8 @@
     </script>
 </head>
 <body>
-    <h1 style="color : blue">Server Sent Events</h1>
+    <h1 style="color : red">Server Sent Events</h1>
+
     <input type="button" value="Connect" id="btnConnect">
     <div id="divMessages"></div>
 </body>
