@@ -18,11 +18,11 @@ function f4Sync(){
 	console.log('f4Sync completed');
 }
 
+var syncFns = [f1Sync, f2Sync, f3Sync, f4Sync];
+
 module.exports.runSync = function(){
-	f1Sync();
-	f2Sync();
-	f3Sync();
-	f4Sync();
+	for(var i=0; i < syncFns.length; i++)
+		syncFns[i]();
 }
 
 function f1(next){
@@ -61,12 +61,17 @@ function f4(next){
 	}, 3000);
 }
 
+var fns = [f1, f2, f3, f4];
+
 module.exports.run = function(){
-	f1(function(){
-		f2(function(){
-			f3(function(){
-				f4();
-			})
-		})
-	})
+	function exec(fns){
+		var first = fns[0],
+			remaining = fns.slice(1),
+			next = function(){
+				exec(remaining);
+			};
+		if (first)
+			first(next);
+	}
+	exec(fns);
 }
