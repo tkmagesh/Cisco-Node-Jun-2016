@@ -1,4 +1,6 @@
+var chalk = require('chalk');
+
 module.exports = function(req, res, next){
-	console.log(req.method , ' - ', req.url);
+	console.log(chalk.bold.red(req.method) + ' - ' + chalk.yellow(req.url));
 	next();
 }

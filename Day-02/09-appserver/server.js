@@ -2,12 +2,12 @@ var http = require('http'),
 	path = require('path');
 
 var dataParser = require('./dataParser'),
-	serveStatic = require('./serveStatic'),
+	serveStatic = require('./serveStatic' ),
 	calculatorHandler = require('./calculatorHandler'),
 	notFoundHandler = require('./notFoundHandler'),
 	logger = require('./logger'),
-	app = require('./app'),
-	router = app.router();
+	app = require('./app');
+	
 
 app.use(logger);
 app.use(dataParser);
